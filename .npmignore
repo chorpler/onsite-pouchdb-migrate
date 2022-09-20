@@ -1,0 +1,12 @@
+node_modules
+.DS_Store
+*~
+coverage
+npm-debug.log
+test/test-bundle.js
+.idea
+.rpt2_cache
+org001.*
+org.json
+org
+testing*
