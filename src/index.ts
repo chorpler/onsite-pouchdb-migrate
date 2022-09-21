@@ -49,8 +49,8 @@ const migrate = async function(migration:MigrationFunction, options?:PouchOption
   return promise;
 };
 
-if (typeof window !== 'undefined' && window.PouchDB) {
-  window.PouchDB.plugin(exports);
+if(typeof window !== 'undefined' && window.PouchDB) {
+  window.PouchDB.plugin({migrate: migrate});
 }
 
 export { migrate };
