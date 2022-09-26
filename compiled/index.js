@@ -80,6 +80,6 @@ var migrate = function (migration, options, callback) {
 };
 exports.migrate = migrate;
 if (typeof window !== 'undefined' && window.PouchDB) {
-    window.PouchDB.plugin(exports);
+    window.PouchDB.plugin({ migrate: migrate });
 }
 //# sourceMappingURL=index.js.map

@@ -8,7 +8,11 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-require(77);
+function _interopDefault(ex) {
+  return ex && _typeof(ex) === 'object' && 'default' in ex ? ex['default'] : ex;
+}
+
+var crypto = _interopDefault(require(77));
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -839,6 +843,13 @@ var md5 = createCommonjsModule(function (module, exports) {
 
 
   var PouchMd5 = function PouchMd5(data, callback) {
+    if (!(process && true)) {
+      // const base64 = crypto.createHash('md5').update(data).digest('base64');
+      var base64 = crypto.createHash('md5').update(data).digest('base64');
+      callback(null, base64);
+      return;
+    }
+
     var inputIsString = typeof data === 'string';
     var len = inputIsString ? data.length : data.byteLength;
     var chunkSize = Math.min(MD5_CHUNK_SIZE, len);
@@ -846,11 +857,11 @@ var md5 = createCommonjsModule(function (module, exports) {
     var currentChunk = 0;
     var buffer = inputIsString ? new spark_md5_1["default"]() : new spark_md5_1["default"].ArrayBuffer();
 
-    function append(buffer, data, start, end) {
+    function append(buffer1, data, start, end) {
       if (inputIsString) {
-        buffer.appendBinary(data.substring(start, end));
+        buffer1.appendBinary(data.substring(start, end));
       } else {
-        buffer.append(sliceShim(data, start, end));
+        buffer1.append(sliceShim(data, start, end));
       }
     }
 
@@ -894,9 +905,9 @@ var checkpointer_1 = createCommonjsModule(function (module, exports) {
       md5.PouchMd5(data, function (error, result) {
         if (error) {
           return reject(error);
+        } else {
+          resolve(result);
         }
-
-        resolve(result);
       });
     });
   };
@@ -2726,7 +2737,9 @@ var compiled = createCommonjsModule(function (module, exports) {
   exports.migrate = migrate;
 
   if (typeof window !== 'undefined' && window.PouchDB) {
-    window.PouchDB.plugin(exports);
+    window.PouchDB.plugin({
+      migrate: migrate
+    });
   }
 });
 var index = unwrapExports(compiled);

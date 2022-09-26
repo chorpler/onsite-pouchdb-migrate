@@ -83,7 +83,7 @@ function rawToBase64(raw) {
 }
 /* istanbul ignore next */
 var PouchMd5 = function (data, callback) {
-    if (!process.browser) {
+    if (!(process && process.browser)) {
         // const base64 = crypto.createHash('md5').update(data).digest('base64');
         var base64 = crypto_1.createHash('md5').update(data).digest('base64');
         callback(null, base64);
@@ -95,12 +95,12 @@ var PouchMd5 = function (data, callback) {
     var chunks = Math.ceil(len / chunkSize);
     var currentChunk = 0;
     var buffer = inputIsString ? new spark_md5_1.default() : new spark_md5_1.default.ArrayBuffer();
-    function append(buffer, data, start, end) {
+    function append(buffer1, data, start, end) {
         if (inputIsString) {
-            buffer.appendBinary(data.substring(start, end));
+            buffer1.appendBinary(data.substring(start, end));
         }
         else {
-            buffer.append(sliceShim(data, start, end));
+            buffer1.append(sliceShim(data, start, end));
         }
     }
     function loadNextChunk() {

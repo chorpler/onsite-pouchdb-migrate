@@ -9,7 +9,9 @@ var md5Promise = function (data) {
             if (error) {
                 return reject(error);
             }
-            resolve(result);
+            else {
+                resolve(result);
+            }
         });
     });
 };
